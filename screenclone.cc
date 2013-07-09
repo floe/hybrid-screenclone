@@ -172,8 +172,10 @@ display::screens_vector display::xinerama_screens() {
 	if ( !screens ) ERR;
 
 	screens_vector vec;
-	for ( int i = 0; i < number; ++i )
+	for ( int i = 0; i < number; ++i ) {
+		std::cout << "screen " << i << " " << screens[i].width << "x" << screens[i].height << std::endl;
 		vec.push_back( xinerama_screen( *this, screens[ i ] ) );
+	}
 
 	XFree( screens );
 	return vec;
@@ -408,6 +410,7 @@ int main( int argc, char *argv[] )
 	display src( src_name ), dst( dst_name );
 
 	auto screens = src.xinerama_screens();
+	std::cout << "cloning screen: " << screen_number << std::endl;
 	if ( screen_number < 0 || screen_number >= screens.size() )
 		ERR;
 	auto &screen = screens[ screen_number ];
