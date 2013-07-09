@@ -1,0 +1,21 @@
+diff -ur xserver-xorg-video-intel-2.17.0-old/debian/patches/106-uxa-only-consider-attached-outputs-valid.patch xserver-xorg-video-intel-2.17.0/debian/patches/106-uxa-only-consider-attached-outputs-valid.patch
+--- xserver-xorg-video-intel-2.17.0-old/debian/patches/106-uxa-only-consider-attached-outputs-valid.patch	2013-07-08 17:12:29.570271712 +0200
++++ xserver-xorg-video-intel-2.17.0/debian/patches/106-uxa-only-consider-attached-outputs-valid.patch	2013-07-08 17:09:20.946275582 +0200
+@@ -31,7 +31,7 @@
+ 
+ --- a/src/intel_display.c
+ +++ b/src/intel_display.c
+-@@ -1716,6 +1716,43 @@
++@@ -1716,6 +1716,45 @@
+  	return intel_crtc->pipe;
+  }
+  
+@@ -61,6 +61,8 @@
+ +               return FALSE;
+ +
+ +       /* And finally check with the kernel that the fb is bound */
+++       if (intel_crtc->mode == NULL || intel_crtc->mode_crtc == NULL)
+++               return FALSE;
+ +       drm_crtc = drmModeGetCrtc(intel_crtc->mode->fd, crtc_id(intel_crtc));
+ +       if (drm_crtc == NULL)
+ +               return FALSE;
